@@ -5,7 +5,7 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-8">
-            <form action="{{ route('profile.update') }}" method="post" class="bg-white shadow rounded-3 p-5" enctype="multipart/form-data">
+            <form action="{{ route('profile.update',$user->id) }}" method="post" class="bg-white shadow rounded-3 p-5" enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
                 <h2 class="h3 mb-3 fw-light text-muted">Update Profile</h2>
@@ -58,5 +58,37 @@
                 <button type="submit" class="btn btn-warning px-5">Save</button>
             </form>
         </div>
+    </div>
+
+    <div class="row justify-content-center mt-3">
+        <div class="col-8">
+            <form action="{{ route('profile.password.update',$user->id) }}" class="bg-white shadow rounded-3 p-5" method="post">
+                @csrf
+                @method('PATCH')
+                <div class="mb-3">
+                    <label for="old-password" class="form-label fw-bold">Old password</label>
+                    <input type="password" name="old_password" id="old-password" class="form-control" placeholder="Old Password">
+                    @error('old_password')
+                        <p class="text-danger small">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="mb-3">
+                    <label for="new-password" class="form-label fw-bold">New password</label>
+                    <input type="password" name="new_password" id="new-password" class="form-control" placeholder="New Password">
+                    @error('new_password')
+                    <p class="text-danger small">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="mb-3">
+                    <label for="new-password-confirmation" class="form-label fw-bold">Confirm password</label>
+                    <input type="password" name="new_password_confirmation" id="new-password-confirmation" class="form-control" placeholder="Confirm Password">
+                    @error('new_password_confirmation')
+                        <p class="text-danger small">{{ $message }}</p>
+                    @enderror
+                </div>
+                <button type="submit" class="btn btn-warning px-5">Update</button>
+            </form>
+        </div>
+
     </div>
 @endsection

@@ -38,7 +38,8 @@ class PostController extends Controller
         $request->validate([
             'category' => 'required|array|between:1,3',
             'description' =>'required|min:1|max:1000',
-            'image' =>'required|mimes:jpeg,jpg,png,gif|max:1048'
+            'image' =>'required|mimes:jpeg,jpg,png,gif|max:1048',
+            'posted_at' =>'date'
         ]);
 
         #2. Save our data into the database
@@ -46,6 +47,7 @@ class PostController extends Controller
         $this->post->user_id = Auth::user()->id;  //the owner of the post
         $this->post->image = 'data:image/'.$request->image->extension().';base64,'.base64_encode(file_get_contents($request->image));
         $this->post->description = $request->description;
+        $this->post->posted_at = $request->posted_at;
         $this->post->save();
 
         #3. Get the categories of the post and the category save it the PIVOT table(category_post)

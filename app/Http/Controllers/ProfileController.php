@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -18,6 +19,16 @@ class ProfileController extends Controller
     {
         $user = $this->user->findOrFail($id);
         return view('users.profile.show')->with('user', $user);
+    }
+
+    public function showCollection($id)
+    {
+        $user = $this->user->findOrFail($id);
+        $user_collections= $user->collections;
+        // $users_collections = $this->user->findOrFail($id);
+        return view('users.profile.collection')
+                ->with('user', $user)
+                ->with('user_collections', $user_collections);
     }
 
     public function edit($id)
@@ -41,7 +52,6 @@ class ProfileController extends Controller
         $user->email = $request->email;
         $user->introduction = $request->introduction;
 
-
         if($request->avatar)
         {
             $user->avatar = 'data:image/'.$request->avatar->extension().';base64,'.base64_encode(file_get_contents($request->avatar));
@@ -60,6 +70,25 @@ class ProfileController extends Controller
 
 
     }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'new_password' => 'different:old_password|confirmed'
+        ]);
+
+        if(!password_verify($request->old_password, $user->password))
+        {
+            return redirect()->back()->withErrors(['old_password' => 'The old password is incorrect.']);
+        }
+
+        $user->password = password_hash($request->new_password, PASSWORD_DEFAULT);
+        $user->save();
+
+        return redirect()->route('profile.show', Auth::user()->id);
+
+    }
+
 
     public function followers($id)
     {

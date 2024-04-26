@@ -47,6 +47,11 @@
                         <strong>{{ $user->following->count() }}</strong> Following
                     </a>
                 </div>
+                <div class="col-auto">
+                    <a href="{{ route('collection.show',$user->id) }}" method="post" class="text-decoration-none text-dark">
+                        <strong>{{ $user->collections->count() }}</strong> {{ $user->collections()->count() == 1 ? 'Collection' : 'Collections' }}
+                    </a>
+                </div>
             </div>
 
             <p class="fw-bold">{{ $user->introduction }}</p>

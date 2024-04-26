@@ -25,7 +25,7 @@ class Post extends Model
     #Use this method to get all the COMMENTS under a post
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class)->withTrashed();
     }
 
     #Use this method to get the likes of a post
@@ -39,6 +39,16 @@ class Post extends Model
     public function isLiked()
     {
         return $this->likes()->where('user_id', Auth::user()->id)->exists();
+    }
+
+    public function collections()
+    {
+        return $this->hasMany(Collection::class);
+    }
+
+    public function isCollected()
+    {
+        return $this->collections()->where('user_id', Auth::user()->id)->exists();
     }
 
 }

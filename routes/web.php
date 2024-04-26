@@ -8,6 +8,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\CollectionController;
 
 
 #Admin user controller
@@ -37,6 +38,7 @@ Route::group(['middleware' => 'auth'], function(){
     #Route for homepage
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('/people', [HomeController::class, 'search'])->name('search');
+    Route::get('/allsuggestedusers', [HomeController::class, 'allSuggestedUsers'])->name('allSuggestedUsers');
 
     #open create post form
     Route::get('/post/create',[PostController::class, 'create'])->name('post.create');
@@ -65,6 +67,10 @@ Route::group(['middleware' => 'auth'], function(){
     #Delete comments
     Route::delete('/comment/{id}/destroy',[CommentController::class, 'destroy'])->name('comment.destroy');
 
+    #Softdelete comment
+    Route::delete('/comment/{id}/hide',[CommentController::class, 'hide'])->name('comment.hide');
+    Route::patch('comment/{id}/unhide', [CommentController::class, 'unhide'])->name('comment.unhide');
+
     ### PROFILE SECTION ###
     Route::get('/profile/{id}/show', [ProfileController::class, 'show'])->name('profile.show');
 
@@ -72,7 +78,10 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/profile/{id}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 
     # Update Profile
-    Route::patch('/profile/update',[ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile/{id}/update',[ProfileController::class, 'update'])->name('profile.update');
+
+    #Update password
+    Route::patch('/profile/{id}/update', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
 
     #Followers
     Route::get('/profile/{id}/followers', [ProfileController::class, 'followers'])->name('profile.followers');
@@ -81,6 +90,15 @@ Route::group(['middleware' => 'auth'], function(){
     #like
     Route::post('/like/{post_id}/store', [LikeController::class, 'store'])->name('like.store');
     Route::delete('/like/{post_id}/destroy', [LikeController::class, 'destroy'])->name('like.destroy');
+
+
+    ##Collection
+    Route::post('/collection/{post_id}/store', [CollectionController::class, 'store'])->name('collection.store');
+    Route::delete('collection/{post_id}/destroy', [CollectionController::class, 'destroy'])->name('collection.destroy');
+
+    #Show collection
+    Route::get('/collection/{user_id}/show', [ProfileController::class, 'showCollection'])->name('collection.show');
+
 
     ### Follow/ Unfollow
     Route::post('/follow/{user_id}/store', [FollowController::class, 'store'])->name('follow.store');

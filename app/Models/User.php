@@ -95,5 +95,10 @@ class User extends Authenticatable
         # searching  for the AUTH user from the follower_id column ( where('follower_id', Auth::user()->id) )
     }
 
+    public function collections()
+    {
+        return $this->hasMany(Collection::class);
+    }
+
 
 }

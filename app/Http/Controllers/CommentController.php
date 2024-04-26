@@ -43,6 +43,16 @@ class CommentController extends Controller
         return redirect()->back();
     }
 
+    public function hide($id){
+        $this->comment->destroy($id);
+        return redirect()->back();
+    }
+
+    public function unhide($id){
+        $this->comment->onlyTrashed()->findOrFail($id)->restore();
+        return redirect()->back();
+    }
+
 
 }
 

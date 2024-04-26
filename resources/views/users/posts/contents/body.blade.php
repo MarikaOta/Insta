@@ -24,6 +24,24 @@
         <div class="col-auto px-0">
             <span>{{ $post->likes->count() }}</span>
         </div>
+        <div class="col">
+            @if($post->isCollected())
+                <form action="{{ route('collection.destroy', $post->id) }}" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn shadow-none">
+                        <i class="fa-solid fa-bookmark"></i>
+                    </button>
+                </form>
+            @else
+                <form action="{{ route('collection.store', $post->id) }}" method="post">
+                    @csrf
+                    <button type="submit" class="btn shadow-none">
+                        <i class="fa-regular fa-bookmark"></i>
+                    </button>
+                </form>
+            @endif
+        </div>
         <div class="col text-end">
             @forelse ($post->categoryPost as $category_post)
                 <span class="badge bg-secondary bg-opacity-50">{{ $category_post->category->name }}</span>
@@ -34,6 +52,7 @@
                 <div class="badge bg-secondary bg-opacity-50">{{$category_post->category->name}}</div>
             @endforeach --}}
         </div>
+
     </div>
 
     {{-- Owner of the post + description of the post --}}

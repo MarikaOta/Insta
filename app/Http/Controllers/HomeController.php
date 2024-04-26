@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Comment;
 
 class HomeController extends Controller
 {
@@ -68,6 +69,23 @@ class HomeController extends Controller
         #z -->number of length or how many
     }
 
+    public function allSuggestedUsers()
+    {
+        $all_users = $this->user->all()->except(Auth::user()->id);
+        $allSuggested_users = [];
+
+        foreach($all_users as $user)
+        {
+            if(!$user->isFollowed())
+            {
+                $allSuggested_users[] = $user;
+            }
+        }
+
+        return view('users.viewusers')
+            ->with('allSuggested_users',$allSuggested_users);
+
+    }
 
 
     /**
