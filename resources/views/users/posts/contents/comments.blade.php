@@ -28,7 +28,7 @@
                             @if (Auth::user()->id === $post->user->id)
                                 @if ($comment->trashed())
                                     &middot;
-                                    <button class="text-warning bg-transparent p-0 small border-0" data-bs-toggle="modal" data-bs-target="#unhide-comment-{{$comment->id}}" title="Unhide">Unhide</button>
+                                    <button class="text-success bg-transparent p-0 small border-0" data-bs-toggle="modal" data-bs-target="#unhide-comment-{{$comment->id}}" title="Unhide">Unhide</button>
                                 @else
                                     &middot;
                                     <button class="text-warning bg-transparent p-0 small border-0" data-bs-toggle="modal" data-bs-target="#hide-comment-{{$comment->id}}" title="Hide">Hide</button>

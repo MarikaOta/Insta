@@ -46,10 +46,10 @@
             @enderror
         </div>
 
-        <div class="mb-4">
+        {{-- <div class="mb-4">
             <label for="posted-at" class="form-label">Time you want to post</label>
             <input type="datetime-local" name="posted_at" id="posted-at" class="form-control">
-        </div>
+        </div> --}}
 
         <button type="submit" class="btn btn-primary px-5">post</button>
 

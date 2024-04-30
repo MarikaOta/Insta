@@ -73,6 +73,8 @@ class ProfileController extends Controller
 
     public function updatePassword(Request $request)
     {
+        $user = $this->user->findOrFail(Auth::user()->id);
+
         $request->validate([
             'new_password' => 'different:old_password|confirmed'
         ]);
@@ -85,7 +87,7 @@ class ProfileController extends Controller
         $user->password = password_hash($request->new_password, PASSWORD_DEFAULT);
         $user->save();
 
-        return redirect()->route('profile.show', Auth::user()->id);
+        return redirect()->back()->with('status', 'Password changed successfully');
 
     }
 

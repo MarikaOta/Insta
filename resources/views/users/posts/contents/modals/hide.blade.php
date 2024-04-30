@@ -23,3 +23,28 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="unhide-comment-{{$comment->id}}">
+    <div class="modal-dialog">
+        <div class="modal-content border-success">
+            <div class="modal-header border-success">
+                <h3 class="h5 modal-title text-success">
+                    <i class="fa-solid fa-eye-slash"></i>  Unhide Post
+                </h3>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to unhide this post?</p>
+            </div>
+            <div class="modal-footer border-0">
+                <div class="modal-footer border-0">
+                    <form action="{{ route('comment.hide',$comment->id) }}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        &middot;
+                        <button type="button" class="btn btn-outline-success btn-sm" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success btn-sm">Hide</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

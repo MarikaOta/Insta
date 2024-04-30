@@ -9,4 +9,9 @@ class Like extends Model
 {
     use HasFactory;
     public $timestamps = false; //tell laravel not to insert $timestamps
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

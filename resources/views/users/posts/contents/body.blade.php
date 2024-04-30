@@ -21,10 +21,22 @@
                 </form>
             @endif
         </div>
-        <div class="col-auto px-0">
+        <div class="col text-start px-0">
             <span>{{ $post->likes->count() }}</span>
         </div>
-        <div class="col">
+
+        <div class="col text-end px-0">
+            @forelse ($post->categoryPost as $category_post)
+                <span class="badge bg-secondary bg-opacity-50">{{ $category_post->category->name }}</span>
+            @empty
+                <div class="badge bg-dark text-wrap">Uncategorized</div>
+            @endforelse
+            {{-- @foreach($post->categoryPost as $category_post)
+                <div class="badge bg-secondary bg-opacity-50">{{$category_post->category->name}}</div>
+            @endforeach --}}
+        </div>
+
+        <div class="col-auto px-0">
             @if($post->isCollected())
                 <form action="{{ route('collection.destroy', $post->id) }}" method="post">
                     @csrf
@@ -41,16 +53,6 @@
                     </button>
                 </form>
             @endif
-        </div>
-        <div class="col text-end">
-            @forelse ($post->categoryPost as $category_post)
-                <span class="badge bg-secondary bg-opacity-50">{{ $category_post->category->name }}</span>
-            @empty
-                <div class="badge bg-dark text-wrap">Uncategorized</div>
-            @endforelse
-            {{-- @foreach($post->categoryPost as $category_post)
-                <div class="badge bg-secondary bg-opacity-50">{{$category_post->category->name}}</div>
-            @endforeach --}}
         </div>
 
     </div>
@@ -69,6 +71,8 @@
 
     @include('users.posts.contents.comments')
 
+    <button class="text-primary border-0 bg-transparent mt-1" data-bs-toggle="modal" data-bs-target="#liked-post-{{ $post->id }}">→ Click here to see users who liked this post.</button>
+    @include('users.posts.contents.modals.likes')
 </div>
 
 

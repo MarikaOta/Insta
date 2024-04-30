@@ -8,6 +8,7 @@
             <form action="{{ route('profile.update',$user->id) }}" method="post" class="bg-white shadow rounded-3 p-5" enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
+
                 <h2 class="h3 mb-3 fw-light text-muted">Update Profile</h2>
 
                 <div class="row mb-3">
@@ -65,6 +66,14 @@
             <form action="{{ route('profile.password.update',$user->id) }}" class="bg-white shadow rounded-3 p-5" method="post">
                 @csrf
                 @method('PATCH')
+
+                @if(session('status'))
+                    <div class="alert alert-success mt-1">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
+                <h2 class="h3 mb-3 fw-light text-muted">Update Password</h2>
                 <div class="mb-3">
                     <label for="old-password" class="form-label fw-bold">Old password</label>
                     <input type="password" name="old_password" id="old-password" class="form-control" placeholder="Old Password">
